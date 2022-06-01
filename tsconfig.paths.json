@@ -1,0 +1,58 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@config": [
+        "src/config"
+      ],
+      "@controllers": [
+        "src/controllers"
+      ],
+      "@errors": [
+        "src/errors"
+      ],
+      "@fixtures": [
+        "tests/fixtures"
+      ],
+      "@handlers": [
+        "src/handlers"
+      ],
+      "@logger": [
+        "src/logger"
+      ],
+      "@middlewares": [
+        "src/routers/middlewares"
+      ],
+      "@orm": [
+        "src/infrastructure/orm"
+      ],
+      "@ormSequelizeCore": [
+        "src/infrastructure/orm/sequelize/core"
+      ],
+      "@ormSequelizeModels": [
+        "src/infrastructure/orm/sequelize/models"
+      ],
+      "@preset": [
+        "src/preset"
+      ],
+      "@repositories": [
+        "src/infrastructure/repositories"
+      ],
+      "@routers": [
+        "src/routers"
+      ],
+      "@server": [
+        "src/server"
+      ],
+      "@services": [
+        "src/services"
+      ],
+      "@types": [
+        "src/types"
+      ],
+      "@validators": [
+        "src/handlers/validators"
+      ]
+    }
+  }
+}
