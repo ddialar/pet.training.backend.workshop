@@ -1,4 +1,5 @@
 export * from './CreateUserError'
 export * from './CreateUserProfileError'
-export * from './UserAlreadyExistsError'
+export * from './RetrieveUserError'
 export * from './SigninRequestError'
+export * from './UserAlreadyExistsError'

@@ -17,3 +17,10 @@ export const getUser = async (searchParams: Partial<UserData>): Promise<UserData
   const query = { where: searchParams }
   return (await UserModel.findOne(query))?.get({ plain: true })
 }
+
+export const getAllUsers = async (): Promise<(UserData & { UserProfileModel?: UserProfileData })[]> => {
+  await connect()
+  return (await UserModel.findAll({
+    include: [UserProfileModel]
+  })).map(user => user.get({ plain: true })) || []
+}

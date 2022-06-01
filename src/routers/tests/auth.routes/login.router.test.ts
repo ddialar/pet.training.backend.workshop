@@ -10,8 +10,10 @@ const request = supertest(server)
 
 describe(`Integration test - POST ${BASE_URL}`, () => {
   const mockedUserData = {
-    username: 'jane@doe.com',
-    password: 'janedoepassword'
+    email: 'jane@doe.com',
+    password: 'janedoepassword',
+    firstName: 'Jane',
+    lastName: 'Doe'
   }
 
   beforeAll(async () => {
@@ -20,7 +22,10 @@ describe(`Integration test - POST ${BASE_URL}`, () => {
   })
 
   it('returns OK (200) with the new user token', async () => {
-    const payload = { ...mockedUserData }
+    const payload = {
+      username: mockedUserData.email,
+      password: mockedUserData.password
+    }
 
     const { status, body } = await request.post(BASE_URL).send(payload)
 
@@ -36,7 +41,7 @@ describe(`Integration test - POST ${BASE_URL}`, () => {
 
   it('returns BAD_REQUEST (400) when email is not provided', async () => {
     const payload = {
-      password: 'janedoepassword'
+      password: mockedUserData.password
     }
     const expectedError = { message: 'Login payload error' }
 
@@ -48,8 +53,8 @@ describe(`Integration test - POST ${BASE_URL}`, () => {
 
   it('returns BAD_REQUEST (400) when email is malformed', async () => {
     const payload = {
-      email: 'jane@',
-      password: 'janedoepassword'
+      username: 'jane@',
+      password: mockedUserData.password
     }
     const expectedError = { message: 'Login payload error' }
 
@@ -61,7 +66,7 @@ describe(`Integration test - POST ${BASE_URL}`, () => {
 
   it('returns BAD_REQUEST (400) when password is not provided', async () => {
     const payload = {
-      email: 'jane@doe.com'
+      username: mockedUserData.email
     }
     const expectedError = { message: 'Login payload error' }
 
@@ -73,7 +78,7 @@ describe(`Integration test - POST ${BASE_URL}`, () => {
 
   it('returns BAD_REQUEST (400) when password is too short', async () => {
     const payload = {
-      email: 'jane@doe.com',
+      username: mockedUserData.email,
       password: 'jane'
     }
     const expectedError = { message: 'Login payload error' }
@@ -86,7 +91,7 @@ describe(`Integration test - POST ${BASE_URL}`, () => {
 
   it('returns BAD_REQUEST (400) when password contains non valid characters', async () => {
     const payload = {
-      email: 'jane@doe.com',
+      username: mockedUserData.email,
       password: 'janedoepassword%&'
     }
     const expectedError = { message: 'Login payload error' }
@@ -116,8 +121,8 @@ describe(`Integration test - POST ${BASE_URL}`, () => {
     })
 
     const payload = {
-      username: 'jane@doe.com',
-      password: 'janedoepassword'
+      username: mockedUserData.email,
+      password: mockedUserData.password
     }
     const expectedError = { message: 'Something went wrong' }
 

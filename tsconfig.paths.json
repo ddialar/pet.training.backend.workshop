@@ -20,6 +20,9 @@
       "@logger": [
         "src/logger"
       ],
+      "@mappers": [
+        "src/infrastructure/mappers"
+      ],
       "@middlewares": [
         "src/routers/middlewares"
       ],

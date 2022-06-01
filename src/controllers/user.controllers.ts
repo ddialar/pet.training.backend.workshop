@@ -26,7 +26,7 @@ const persistNewUserProfile = async ({ id }: UserData, { email, firstName, lastN
   return await userRepositories.createProfile(parsedUserProfile)
 }
 
-export const signin = async ({ email, password, firstName, lastName }: SigninRequest) => {
+export const signin = async ({ email, password, firstName, lastName }: SigninRequest): Promise<void> => {
   logger.info({ method: 'signin controller', email, firstName, lastName }, 'New user signin process started')
 
   // TODO Check whether the user already exists
@@ -37,4 +37,11 @@ export const signin = async ({ email, password, firstName, lastName }: SigninReq
   await persistNewUserProfile(persistedUser, { email, firstName, lastName })
 
   logger.info({ method: 'signin controller', email }, 'New user and profile successfully created')
+}
+
+export const getAllUsers = async (): Promise<Pick<UserProfileData, 'firstName' | 'lastName'>[]> => {
+  logger.info({ method: 'getAllUsers controller' }, 'Retrieving registered users')
+
+  // TODO Persist new user
+  return await userRepositories.getAllUsers()
 }

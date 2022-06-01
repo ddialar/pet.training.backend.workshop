@@ -34,6 +34,8 @@ export interface UserProfileData {
   userId: string
 }
 
+export type UserProfiledData = Omit<UserData, 'createdAt' | 'updatedAt'> & Pick<UserProfileData, 'firstName' | 'lastName'>
+
 // ##############################################################
 // #####                    USER - PET                      #####
 // ##############################################################

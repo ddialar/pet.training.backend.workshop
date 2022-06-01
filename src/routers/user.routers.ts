@@ -5,4 +5,6 @@ const userRouters = Router()
 
 userRouters.post('/signin', userHandlers.signin)
 
+userRouters.get('/users', userHandlers.getAllUsers)
+
 export { userRouters }
