@@ -1,7 +1,7 @@
 import { logger } from '@logger'
 import { hashPassword } from '@services'
 import { userRepositories } from '@repositories'
-import { SigninRequest, UserData, UserProfileData } from '@types'
+import { SigninRequest, UserData, UserProfileData, UserProfiledData } from '@types'
 
 const persistNewUser = async ({ email, password }: Pick<SigninRequest, 'email' | 'password'>): Promise<UserData> => {
   // TODO Hash the password
@@ -39,9 +39,12 @@ export const signin = async ({ email, password, firstName, lastName }: SigninReq
   logger.info({ method: 'signin controller', email }, 'New user and profile successfully created')
 }
 
-export const getAllUsers = async (): Promise<Pick<UserProfileData, 'firstName' | 'lastName'>[]> => {
+export const getUserById = async (id: string): Promise<UserProfiledData> => {
   logger.info({ method: 'getAllUsers controller' }, 'Retrieving registered users')
+  return await userRepositories.findUserAndErrorIfNotExists({ id })
+}
 
-  // TODO Persist new user
+export const getAllUsers = async (): Promise<UserProfiledData[]> => {
+  logger.info({ method: 'getAllUsers controller' }, 'Retrieving registered users')
   return await userRepositories.getAllUsers()
 }

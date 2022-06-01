@@ -12,9 +12,18 @@ export const createUserProfile = async (newUserProfile: UserProfileData) => {
   return (await (UserProfileModel.create(newUserProfile))).get({ plain: true })
 }
 
+// export const getUser = async (searchParams: Partial<UserData>): Promise<UserData | undefined> => {
+//   await connect()
+//   const query = { where: searchParams }
+//   return (await UserModel.findOne(query))?.get({ plain: true })
+// }
+
 export const getUser = async (searchParams: Partial<UserData>): Promise<UserData | undefined> => {
   await connect()
-  const query = { where: searchParams }
+  const query = {
+    where: searchParams,
+    include: [UserProfileModel]
+  }
   return (await UserModel.findOne(query))?.get({ plain: true })
 }
 

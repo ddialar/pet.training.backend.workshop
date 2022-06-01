@@ -22,9 +22,11 @@ export const createProfile = async (newUserProfile: UserProfileData): Promise<Us
   }
 }
 
-export const getUser = async (searchParms: Partial<UserData>): Promise<UserData | undefined> => {
+export const getUser = async (searchParms: Partial<UserData>): Promise<UserProfiledData | undefined> => {
   try {
-    return await userRequests.getUser(searchParms)
+    const retrievedUser = await userRequests.getUser(searchParms)
+
+    return retrievedUser ? mapUserFromModelToDomain(retrievedUser) : retrievedUser
   } catch (error) {
     logger.error({ method: 'repository getUser' }, 'Retrieving user error')
     throw new RetrieveUserError((<Error>error).message)
@@ -48,7 +50,7 @@ export const findUserAndErrorIfExists = async (query: Partial<UserData>): Promis
   }
 }
 
-export const findUserAndErrorIfNotExists = async (query: Partial<UserData>): Promise<UserData> => {
+export const findUserAndErrorIfNotExists = async (query: Partial<UserData>): Promise<UserProfiledData> => {
   const user = await getUser(query)
   if (!user) {
     logger.error({ method: 'repository findUserAndErrorIfNotExists', query }, 'User not found')
