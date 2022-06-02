@@ -1,28 +1,19 @@
 import { logger } from '@logger'
 import { userRequests } from '@orm'
-import { mapUserFromModelToDomain } from '@mappers'
-import { CreateUserError, CreateUserProfileError, RetrieveUserError, UserAlreadyExistsError, UserNotFoundError } from '@errors'
-import { NewUserData, UserData, UserProfileData, UserProfiledData } from '@types'
+import { mapNewUserFromDomainToModel, mapUserFromModelToDomain } from '@mappers'
+import { CreateUserError, RetrieveUserError, UserAlreadyExistsError, UserNotFoundError } from '@errors'
+import { NewUserData, UserData, UserWithProfile } from '@types'
 
-export const createUser = async (newUser: NewUserData): Promise<UserData> => {
+export const createUser = async (newUser: NewUserData): Promise<UserWithProfile> => {
   try {
-    return await userRequests.createUser(newUser)
+    return mapUserFromModelToDomain(await userRequests.createUser(mapNewUserFromDomainToModel(newUser)))
   } catch (error) {
     logger.error({ method: 'repository createUser', newUser }, 'User creation error')
     throw new CreateUserError((<Error>error).message)
   }
 }
 
-export const createProfile = async (newUserProfile: UserProfileData): Promise<UserProfileData> => {
-  try {
-    return await userRequests.createUserProfile(newUserProfile)
-  } catch (error) {
-    logger.error({ method: 'repository createProfile', newUserProfile }, 'User profile creation error')
-    throw new CreateUserProfileError((<Error>error).message)
-  }
-}
-
-export const getUser = async (searchParms: Partial<UserData>): Promise<UserProfiledData | undefined> => {
+export const getUser = async (searchParms: Partial<UserData>): Promise<UserWithProfile | undefined> => {
   try {
     const retrievedUser = await userRequests.getUser(searchParms)
 
@@ -33,7 +24,7 @@ export const getUser = async (searchParms: Partial<UserData>): Promise<UserProfi
   }
 }
 
-export const getAllUsers = async (): Promise<UserProfiledData[]> => {
+export const getAllUsers = async (): Promise<UserWithProfile[]> => {
   try {
     return (await userRequests.getAllUsers()).map(mapUserFromModelToDomain)
   } catch (error) {
@@ -50,7 +41,7 @@ export const findUserAndErrorIfExists = async (query: Partial<UserData>): Promis
   }
 }
 
-export const findUserAndErrorIfNotExists = async (query: Partial<UserData>): Promise<UserProfiledData> => {
+export const findUserAndErrorIfNotExists = async (query: Partial<UserData>): Promise<UserWithProfile> => {
   const user = await getUser(query)
   if (!user) {
     logger.error({ method: 'repository findUserAndErrorIfNotExists', query }, 'User not found')

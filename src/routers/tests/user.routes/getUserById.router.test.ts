@@ -4,8 +4,8 @@ import { server } from '@server'
 import { userControllers } from '@controllers'
 import { userRepositories } from '@repositories'
 import { cleanDatabaseFixture, createUserFixture } from '@fixtures'
-import { UserProfiledData } from '@types'
 import { RetrieveUserError } from '@errors'
+import { UserWithProfile } from '@types'
 
 const { OK, BAD_REQUEST, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes
 const BASE_URL = '/users/:id'
@@ -26,7 +26,7 @@ describe(`Integration test - GET ${BASE_URL}`, () => {
       lastName: 'Doe'
     }
   ]
-  const spectedResult: UserProfiledData[] = []
+  const spectedResult: UserWithProfile[] = []
 
   beforeAll(async () => {
     await cleanDatabaseFixture()

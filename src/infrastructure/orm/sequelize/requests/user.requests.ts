@@ -1,35 +1,41 @@
 import { connect } from '../connection'
 import { UserModel, UserProfileModel } from '../models'
-import { NewUserData, UserData, UserProfileData } from '@types'
+import { UserData, ProfileData } from '@types'
 
-export const createUser = async (userData: NewUserData) => {
-  await connect()
-  return (await UserModel.create(userData)).get({ plain: true })
+export interface NewUserWithProfileDatabase {
+  username: string
+  password: string
+  profile: {
+    firstName: string
+    lastName: string
+    email: string
+  }
 }
 
-export const createUserProfile = async (newUserProfile: UserProfileData) => {
-  await connect()
-  return (await (UserProfileModel.create(newUserProfile))).get({ plain: true })
+export interface UserWithProfileDatabase extends UserData {
+  profile: ProfileData
 }
 
-// export const getUser = async (searchParams: Partial<UserData>): Promise<UserData | undefined> => {
-//   await connect()
-//   const query = { where: searchParams }
-//   return (await UserModel.findOne(query))?.get({ plain: true })
-// }
+export const createUser = async (userData: NewUserWithProfileDatabase): Promise<UserWithProfileDatabase> => {
+  await connect()
+  return (await UserModel.create(
+    userData,
+    { include: [UserProfileModel] }
+  )).get({ plain: true }) as UserWithProfileDatabase
+}
 
-export const getUser = async (searchParams: Partial<UserData>): Promise<UserData | undefined> => {
+export const getUser = async (searchParams: Partial<UserData>): Promise<UserWithProfileDatabase | undefined> => {
   await connect()
   const query = {
     where: searchParams,
     include: [UserProfileModel]
   }
-  return (await UserModel.findOne(query))?.get({ plain: true })
+  return (await UserModel.findOne(query))?.get({ plain: true }) as UserWithProfileDatabase
 }
 
-export const getAllUsers = async (): Promise<(UserData & { UserProfileModel?: UserProfileData })[]> => {
+export const getAllUsers = async (): Promise<(UserWithProfileDatabase)[]> => {
   await connect()
-  return (await UserModel.findAll({
+  return <(UserWithProfileDatabase)[]>(await UserModel.findAll({
     include: [UserProfileModel]
   })).map(user => user.get({ plain: true })) || []
 }

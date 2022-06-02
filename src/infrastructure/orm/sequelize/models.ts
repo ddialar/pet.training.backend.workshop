@@ -1,6 +1,6 @@
 import { Model, DataTypes, UUIDV4 } from 'sequelize'
 import { sequelize } from './connection'
-import { UserData, UserProfileData } from '@types'
+import { UserData, ProfileData } from '@types'
 
 // ###################################################
 // #####                  USER                   #####
@@ -19,7 +19,7 @@ UserModel.init({
 }, {
   sequelize,
   timestamps: true,
-  modelName: 'UserModel',
+  modelName: 'user',
   tableName: 'user'
 })
 
@@ -27,7 +27,7 @@ UserModel.init({
 // #####                 PROFILE                 #####
 // ###################################################
 
-class UserProfileModel extends Model<UserProfileData, UserProfileData> {}
+class UserProfileModel extends Model<ProfileData, ProfileData> {}
 
 UserProfileModel.init({
   userId: { type: DataTypes.UUID, primaryKey: false, allowNull: false, unique: true },
@@ -37,7 +37,7 @@ UserProfileModel.init({
 }, {
   sequelize,
   timestamps: false,
-  modelName: 'UserProfileModel',
+  modelName: 'profile',
   tableName: 'profile'
 })
 

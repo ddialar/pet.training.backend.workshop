@@ -4,7 +4,7 @@ import { server } from '@server'
 import { userControllers } from '@controllers'
 import { userRepositories } from '@repositories'
 import { cleanDatabaseFixture, createUserFixture } from '@fixtures'
-import { UserProfiledData } from '@types'
+import { UserWithProfile } from '@types'
 import { RetrieveUserError } from '@errors'
 
 const { OK, BAD_REQUEST, INTERNAL_SERVER_ERROR } = StatusCodes
@@ -26,7 +26,7 @@ describe(`Integration test - GET ${BASE_URL}`, () => {
       lastName: 'Doe'
     }
   ]
-  const spectedResult: UserProfiledData[] = []
+  const spectedResult: UserWithProfile[] = []
 
   beforeAll(async () => {
     await cleanDatabaseFixture()
@@ -39,7 +39,7 @@ describe(`Integration test - GET ${BASE_URL}`, () => {
 
     expect(status).toEqual(OK)
 
-    const persistedUsers = body as UserProfiledData[]
+    const persistedUsers = body as UserWithProfile[]
 
     expect(persistedUsers).toHaveLength(spectedResult.length)
     persistedUsers.forEach(user => {

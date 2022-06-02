@@ -9,10 +9,7 @@ export interface SigninRequest {
   lastName: string
 }
 
-export interface NewUserData {
-  username: string
-  password: string
-}
+export interface NewUserData extends SigninRequest {}
 
 export interface UserData {
   id: string
@@ -27,14 +24,14 @@ export interface UserData {
 // #####                      PROFILE                       #####
 // ##############################################################
 
-export interface UserProfileData {
+export interface ProfileData {
   firstName: string
   lastName: string
   email: string
   userId: string
 }
 
-export type UserProfiledData = Omit<UserData, 'createdAt' | 'updatedAt'> & Pick<UserProfileData, 'firstName' | 'lastName'>
+export type UserWithProfile = Omit<UserData, 'createdAt' | 'updatedAt'> & Pick<ProfileData, 'firstName' | 'lastName'>
 
 // ##############################################################
 // #####                    USER - PET                      #####
