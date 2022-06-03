@@ -14,12 +14,7 @@ export const signin = async ({ email, password, firstName, lastName }: SigninReq
 }
 
 // TODO implement the getUserById method
-// export const getUserById = async (id: string): Promise<UserWithProfile> => {
-//   logger.info({ method: 'getAllUsers controller' }, 'Retrieving registered pet')
-//   return await userRepositories.findUserAndErrorIfNotExists({ id })
+// export const getAllUsers = async (): Promise<UserWithProfile[]> => {
+//   logger.info({ method: 'getAllUsers controller' }, 'Retrieving registered users')
+//   return await userRepositories.getAllUsers()
 // }
-
-export const getAllUsers = async (): Promise<UserWithProfile[]> => {
-  logger.info({ method: 'getAllUsers controller' }, 'Retrieving registered users')
-  return await userRepositories.getAllUsers()
-}

@@ -16,21 +16,11 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
 }
 
 // TODO implement the getUserById method
-// export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
+// export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
 //   try {
-//     commonValidators.validateIdParam(req.params.id)
-//     const result = await userControllers.getUserById(req.params.id)
+//     const result = await userControllers.getAllUsers()
 //     res.status(OK).json(result)
 //   } catch (error) {
 //     next(error)
 //   }
 // }
-
-export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const result = await userControllers.getAllUsers()
-    res.status(OK).json(result)
-  } catch (error) {
-    next(error)
-  }
-}

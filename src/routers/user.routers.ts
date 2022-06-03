@@ -5,8 +5,7 @@ const userRouters = Router()
 
 userRouters.post('/signin', userHandlers.signin)
 
-userRouters.get('/users', userHandlers.getAllUsers)
-// TODO implement the /users/:id route
-// userRouters.get('/users/:id', userHandlers.getUserById)
+// TODO implement the /users route
+// userRouters.get('/users', userHandlers.getAllUsers)
 
 export { userRouters }

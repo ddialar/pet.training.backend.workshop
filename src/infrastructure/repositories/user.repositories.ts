@@ -22,14 +22,15 @@ export const getUser = async (searchParms: Partial<UserData>): Promise<UserWithP
   }
 }
 
-export const getAllUsers = async (): Promise<UserWithProfile[]> => {
-  try {
-    return await userRequests.getAllUsers()
-  } catch (error) {
-    logger.error({ method: 'repository getAllUsers' }, 'Retrieving all users error')
-    throw new RetrieveUserError((<Error>error).message)
-  }
-}
+// TODO implement the getAllUsers method
+// export const getAllUsers = async (): Promise<UserWithProfile[]> => {
+//   try {
+//     return await userRequests.getAllUsers()
+//   } catch (error) {
+//     logger.error({ method: 'repository getAllUsers' }, 'Retrieving all users error')
+//     throw new RetrieveUserError((<Error>error).message)
+//   }
+// }
 
 export const findUserAndErrorIfExists = async (query: Partial<UserData>): Promise<void> => {
   const user = await getUser(query)
@@ -38,14 +39,3 @@ export const findUserAndErrorIfExists = async (query: Partial<UserData>): Promis
     throw new UserAlreadyExistsError()
   }
 }
-
-// TODO implement the findUserAndErrorIfNotExists method
-// export const findUserAndErrorIfNotExists = async (query: Partial<UserData>): Promise<UserWithProfile> => {
-//   const user = await getUser(query)
-//   if (!user) {
-//     logger.error({ method: 'repository findUserAndErrorIfNotExists', query }, 'User not found')
-//     throw new UserNotFoundError()
-//   }
-
-//   return user
-// }
