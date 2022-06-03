@@ -11,19 +11,10 @@ export const createPet = async ({ name, birthday }: NewPetData): Promise<PetData
   )).get({ plain: true }) as PetData
 }
 
-// TODO Implement the getPet method
-// export const getPet = async (searchParams: Partial<PetData>): Promise<PetData | undefined> => {
+// TODO Implement the getAllPets method
+// export const getAllPets = async (): Promise<PetData[]> => {
 //   await connect()
-//   const query = {
-//     where: searchParams
-//     // include: [UserModel]
-//   }
-//   return (await PetModel.findOne(query))?.get({ plain: true }) as PetData
+//   return <PetData[]>(await PetModel.findAll({
+//     // include: [UserProfileModel]
+//   })).map(pet => pet.get({ plain: true })) || []
 // }
-
-export const getAllPets = async (): Promise<PetData[]> => {
-  await connect()
-  return <PetData[]>(await PetModel.findAll({
-    // include: [UserProfileModel]
-  })).map(pet => pet.get({ plain: true })) || []
-}
