@@ -3,8 +3,7 @@ import { petHandlers } from '@handlers'
 
 const petRouters = Router()
 
-petRouters.post('/pets', petHandlers.createPet)
 // TODO implement the /pets
-// petRouters.get('/pets', petHandlers.getAllPets)
+// petRouters.post('/pets', petHandlers.createPet)
 
 export { petRouters }
