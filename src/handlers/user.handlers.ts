@@ -8,8 +8,8 @@ const { OK, CREATED } = StatusCodes
 export const signin = async (req: Request, res: Response, next: NextFunction) => {
   try {
     userValidators.validateSigninPayload(req.body)
-    const user = await userControllers.signin(req.body)
-    res.status(CREATED).json(user)
+    const result = await userControllers.signin(req.body)
+    res.status(CREATED).json(result)
   } catch (error) {
     next(error)
   }
@@ -18,8 +18,8 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
 export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     commonValidators.validateIdParam(req.params.id)
-    const user = await userControllers.getUserById(req.params.id)
-    res.status(OK).json(user)
+    const result = await userControllers.getUserById(req.params.id)
+    res.status(OK).json(result)
   } catch (error) {
     next(error)
   }
@@ -27,8 +27,8 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const users = await userControllers.getAllUsers()
-    res.status(OK).json(users)
+    const result = await userControllers.getAllUsers()
+    res.status(OK).json(result)
   } catch (error) {
     next(error)
   }

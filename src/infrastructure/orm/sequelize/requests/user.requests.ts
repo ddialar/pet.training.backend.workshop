@@ -16,7 +16,6 @@ export const getUser = async (searchParams: Partial<UserData>): Promise<UserWith
     where: searchParams,
     include: [UserProfileModel]
   }
-  // return (await UserModel.findOne(query))?.get({ plain: true }) as UserWithProfile
   return (await UserModel.findOne(query))?.get({ plain: true }) as UserWithProfile
 }
 

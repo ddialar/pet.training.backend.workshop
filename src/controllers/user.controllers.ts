@@ -16,7 +16,7 @@ export const signin = async ({ email, password, firstName, lastName }: SigninReq
 }
 
 export const getUserById = async (id: string): Promise<UserWithProfile> => {
-  logger.info({ method: 'getAllUsers controller' }, 'Retrieving registered users')
+  logger.info({ method: 'getAllUsers controller' }, 'Retrieving registered pet')
   return await userRepositories.findUserAndErrorIfNotExists({ id })
 }
 
