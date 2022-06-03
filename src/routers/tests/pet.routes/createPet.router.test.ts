@@ -2,7 +2,8 @@ import supertest from 'supertest'
 import { StatusCodes } from 'http-status-codes'
 import { server } from '@server'
 import { petControllers } from '@controllers'
-import { cleanDatabaseFixture, createUserFixture, UUID4_REGEX, DATE_REGEX } from '@fixtures'
+import { UUID4_REGEX, DATE_REGEX } from '@constants'
+import { cleanDatabaseFixture, createUserFixture } from '@fixtures'
 import { PetData } from '@types'
 import { petRequests } from '@orm'
 
@@ -54,7 +55,7 @@ describe(`Integration test - POST ${BASE_URL}`, () => {
 
     expect(response.id).toMatch(UUID4_REGEX)
     expect(response.name).toBe(payload.name)
-    expect(response.birthday).toBe(payload.birthday)
+    expect(response.birthday).toBe((new Date(payload.birthday)).toISOString().slice(0, 19))
     expect(response.enabled).toBeTruthy()
     expect(response.createdAt).toMatch(DATE_REGEX)
     expect(response.updatedAt).toMatch(DATE_REGEX)
@@ -83,7 +84,7 @@ describe(`Integration test - POST ${BASE_URL}`, () => {
 
     expect(response.id).toMatch(UUID4_REGEX)
     expect(response.name).toBe(payload.name)
-    expect(response.birthday).toBe(payload.birthday)
+    expect(response.birthday).toBe((new Date(payload.birthday)).toISOString().slice(0, 19))
     expect(response.enabled).toBeTruthy()
     expect(response.createdAt).toMatch(DATE_REGEX)
     expect(response.updatedAt).toMatch(DATE_REGEX)

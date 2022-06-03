@@ -2,7 +2,8 @@ import supertest from 'supertest'
 import { StatusCodes } from 'http-status-codes'
 import { server } from '@server'
 import { authControllers } from '@controllers'
-import { cleanDatabaseFixture, createUserFixture, JWT_REGEX } from '@fixtures'
+import { JWT_REGEX } from '@constants'
+import { cleanDatabaseFixture, createUserFixture } from '@fixtures'
 
 const { OK, BAD_REQUEST, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes
 const BASE_URL = '/login'
