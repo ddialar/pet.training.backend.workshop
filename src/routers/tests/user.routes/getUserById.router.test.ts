@@ -1,4 +1,5 @@
 import supertest from 'supertest'
+import { randomUUID } from 'crypto'
 import { StatusCodes } from 'http-status-codes'
 import { server } from '@server'
 import { userControllers } from '@controllers'
@@ -50,18 +51,12 @@ describe(`Integration test - GET ${BASE_URL}`, () => {
   })
 
   it('returns BAD_REQUEST (400) when the id has not the required structure', async () => {
-    jest.spyOn(userRepositories, 'getUser').mockImplementation(() => {
-      throw new RetrieveUserError('Testing Error')
-    })
-
     const expectedError = { message: 'Id param not valid error' }
 
     const { status, text } = await request.get(BASE_URL.replace(':id', 'non-valid-structure'))
 
     expect(status).toEqual(BAD_REQUEST)
     expect(JSON.parse(text)).toStrictEqual(expectedError)
-
-    jest.spyOn(userRepositories, 'getUser').mockRestore()
   })
 
   it('returns BAD_REQUEST (400) when there is an error retrieving the users', async () => {
@@ -81,12 +76,9 @@ describe(`Integration test - GET ${BASE_URL}`, () => {
   })
 
   it('returns NOT_FOUND (404) when when there are no persisted users', async () => {
-    await cleanDatabaseFixture()
-
-    const [selectedUser] = expectedResult
     const expectedError = { message: 'User not found' }
 
-    const { status, text } = await request.get(BASE_URL.replace(':id', selectedUser.id))
+    const { status, text } = await request.get(BASE_URL.replace(':id', randomUUID()))
 
     expect(status).toEqual(NOT_FOUND)
     expect(JSON.parse(text)).toStrictEqual(expectedError)
