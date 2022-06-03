@@ -1,3 +1,4 @@
 import Joi from 'joi'
+import { UUID4_REGEX } from '@constants'
 
-export const idSchema = Joi.string().regex(/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/).required()
+export const idSchema = Joi.string().regex(UUID4_REGEX).required()
