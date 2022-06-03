@@ -4,14 +4,15 @@ import { mapNewUserFromDomainToModel } from '@mappers'
 import { CreateUserError, RetrieveUserError, UserAlreadyExistsError, UserNotFoundError } from '@errors'
 import { NewUserData, UserData, UserWithProfile } from '@types'
 
-export const createUser = async (newUser: NewUserData): Promise<UserWithProfile> => {
-  try {
-    return await userRequests.createUser(mapNewUserFromDomainToModel(newUser))
-  } catch (error) {
-    logger.error({ method: 'repository createUser', newUser }, 'User creation error')
-    throw new CreateUserError((<Error>error).message)
-  }
-}
+// TODO implement the createUser method
+// export const createUser = async (newUser: NewUserData): Promise<UserWithProfile> => {
+//   try {
+//     return await userRequests.createUser(mapNewUserFromDomainToModel(newUser))
+//   } catch (error) {
+//     logger.error({ method: 'repository createUser', newUser }, 'User creation error')
+//     throw new CreateUserError((<Error>error).message)
+//   }
+// }
 
 export const getUser = async (searchParms: Partial<UserData>): Promise<UserWithProfile | undefined> => {
   try {
@@ -21,16 +22,6 @@ export const getUser = async (searchParms: Partial<UserData>): Promise<UserWithP
     throw new RetrieveUserError((<Error>error).message)
   }
 }
-
-// TODO implement the getAllUsers method
-// export const getAllUsers = async (): Promise<UserWithProfile[]> => {
-//   try {
-//     return await userRequests.getAllUsers()
-//   } catch (error) {
-//     logger.error({ method: 'repository getAllUsers' }, 'Retrieving all users error')
-//     throw new RetrieveUserError((<Error>error).message)
-//   }
-// }
 
 export const findUserAndErrorIfExists = async (query: Partial<UserData>): Promise<void> => {
   const user = await getUser(query)

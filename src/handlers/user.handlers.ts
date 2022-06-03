@@ -1,25 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { userValidators, commonValidators } from '@validators'
+import { userValidators } from '@validators'
 import { userControllers } from '@controllers'
 
-const { OK, CREATED } = StatusCodes
+const { CREATED } = StatusCodes
 
-export const signin = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    userValidators.validateSigninPayload(req.body)
-    const result = await userControllers.signin(req.body)
-    res.status(CREATED).json(result)
-  } catch (error) {
-    next(error)
-  }
-}
-
-// TODO implement the getUserById method
-// export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+// TODO implement the signin method
+// export const signin = async (req: Request, res: Response, next: NextFunction) => {
 //   try {
-//     const result = await userControllers.getAllUsers()
-//     res.status(OK).json(result)
+//     userValidators.validateSigninPayload(req.body)
+//     const result = await userControllers.signin(req.body)
+//     res.status(CREATED).json(result)
 //   } catch (error) {
 //     next(error)
 //   }
