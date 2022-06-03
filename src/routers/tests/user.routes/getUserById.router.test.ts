@@ -26,21 +26,27 @@ describe(`Integration test - GET ${BASE_URL}`, () => {
       lastName: 'Doe'
     }
   ]
-  const spectedResult: UserWithProfile[] = []
+  const expectedResult: UserWithProfile[] = []
 
   beforeAll(async () => {
     await cleanDatabaseFixture()
-    const persistedUsers = await Promise.all(mockedUsersData.map(createUserFixture))
-    persistedUsers.map(user => spectedResult.push(user))
+    expectedResult.push(...(await Promise.all(mockedUsersData.map(createUserFixture))))
   })
 
   it('returns OK (200) and the selected user data', async () => {
-    const [selectedUser] = spectedResult
+    const [expectedUser] = expectedResult
 
-    const { status, body } = await request.get(BASE_URL.replace(':id', selectedUser.id))
+    const { status, body } = await request.get(BASE_URL.replace(':id', expectedUser.id))
 
     expect(status).toEqual(OK)
-    expect(body).toStrictEqual(selectedUser)
+
+    const persistedUser: UserWithProfile = body
+    const expectedUserFields = ['id', 'username', 'password', 'enabled', 'profile', 'createdAt', 'updatedAt']
+    const expectedUserProfileFields = ['id', 'firstName', 'lastName', 'email', 'userId']
+
+    Object.keys(persistedUser).forEach(key => expect(expectedUserFields.includes(key)).toBeTruthy())
+    Object.keys(persistedUser.profile).forEach(key => expect(expectedUserProfileFields.includes(key)).toBeTruthy())
+    expect(persistedUser).toStrictEqual(expectedUser)
   })
 
   it('returns BAD_REQUEST (400) when the id has not the required structure', async () => {
@@ -63,7 +69,7 @@ describe(`Integration test - GET ${BASE_URL}`, () => {
       throw new RetrieveUserError('Testing Error')
     })
 
-    const [selectedUser] = spectedResult
+    const [selectedUser] = expectedResult
     const expectedError = { message: 'Retrieving user error' }
 
     const { status, text } = await request.get(BASE_URL.replace(':id', selectedUser.id))
@@ -77,7 +83,7 @@ describe(`Integration test - GET ${BASE_URL}`, () => {
   it('returns NOT_FOUND (404) when when there are no persisted users', async () => {
     await cleanDatabaseFixture()
 
-    const [selectedUser] = spectedResult
+    const [selectedUser] = expectedResult
     const expectedError = { message: 'User not found' }
 
     const { status, text } = await request.get(BASE_URL.replace(':id', selectedUser.id))
@@ -91,7 +97,7 @@ describe(`Integration test - GET ${BASE_URL}`, () => {
       throw new Error('Testing Error')
     })
 
-    const [selectedUser] = spectedResult
+    const [selectedUser] = expectedResult
     const expectedError = { message: 'Something went wrong' }
 
     const { status, text } = await request.get(BASE_URL.replace(':id', selectedUser.id))

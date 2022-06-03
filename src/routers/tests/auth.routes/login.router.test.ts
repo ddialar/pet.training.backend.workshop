@@ -2,7 +2,7 @@ import supertest from 'supertest'
 import { StatusCodes } from 'http-status-codes'
 import { server } from '@server'
 import { authControllers } from '@controllers'
-import { cleanDatabaseFixture, createUserFixture } from '@fixtures'
+import { cleanDatabaseFixture, createUserFixture, JWT_REGEX } from '@fixtures'
 
 const { OK, BAD_REQUEST, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes
 const BASE_URL = '/login'
@@ -36,7 +36,7 @@ describe(`Integration test - POST ${BASE_URL}`, () => {
     const expectedFields = ['token']
 
     Object.keys(body).forEach(key => expect(expectedFields.includes(key)).toBeTruthy())
-    expect(body.token).toMatch(/^[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*\.[A-Za-z0-9-_]*$/)
+    expect(body.token).toMatch(JWT_REGEX)
   })
 
   it('returns BAD_REQUEST (400) when email is not provided', async () => {

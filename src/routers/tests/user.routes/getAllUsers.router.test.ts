@@ -26,12 +26,11 @@ describe(`Integration test - GET ${BASE_URL}`, () => {
       lastName: 'Doe'
     }
   ]
-  const spectedResult: UserWithProfile[] = []
+  const expectedResult: UserWithProfile[] = []
 
   beforeAll(async () => {
     await cleanDatabaseFixture()
-    const persistedUsers = await Promise.all(mockedUsersData.map(createUserFixture))
-    persistedUsers.map(user => spectedResult.push(user))
+    expectedResult.push(...(await Promise.all(mockedUsersData.map(createUserFixture))))
   })
 
   it('returns OK (200) and the set of persisted users', async () => {
@@ -39,12 +38,16 @@ describe(`Integration test - GET ${BASE_URL}`, () => {
 
     expect(status).toEqual(OK)
 
-    const persistedUsers = body as UserWithProfile[]
+    const persistedUsers: UserWithProfile[] = body
+    const expectedUserFields = ['id', 'username', 'password', 'enabled', 'profile', 'createdAt', 'updatedAt']
+    const expectedUserProfileFields = ['id', 'firstName', 'lastName', 'email', 'userId']
 
-    expect(persistedUsers).toHaveLength(spectedResult.length)
+    expect(persistedUsers).toHaveLength(expectedResult.length)
     persistedUsers.forEach(user => {
-      const spectedUser = spectedResult.find(({ id }) => user.id === id)
-      expect(user).toStrictEqual(spectedUser)
+      const expectedUser = expectedResult.find(({ id }) => user.id === id)
+      Object.keys(user).forEach(key => expect(expectedUserFields.includes(key)).toBeTruthy())
+      Object.keys(user.profile).forEach(key => expect(expectedUserProfileFields.includes(key)).toBeTruthy())
+      expect(user).toStrictEqual(expectedUser)
     })
   })
 

@@ -1,7 +1,6 @@
-import { userRequests } from '@orm'
-import { NewUserData, UserWithProfile } from '@types'
+import { NewUserData, NewUserWithProfile } from '@types'
 
-export const mapNewUserFromDomainToModel = (rawData: NewUserData): userRequests.NewUserWithProfileDatabase => ({
+export const mapNewUserFromDomainToModel = (rawData: NewUserData): NewUserWithProfile => ({
   username: rawData.email,
   password: rawData.password,
   profile: {
@@ -9,13 +8,4 @@ export const mapNewUserFromDomainToModel = (rawData: NewUserData): userRequests.
     lastName: rawData.lastName,
     email: rawData.email
   }
-})
-
-export const mapUserFromModelToDomain = (rawData: userRequests.UserWithProfileDatabase): UserWithProfile => ({
-  id: rawData.id,
-  username: rawData.username,
-  password: rawData.password,
-  firstName: rawData.profile.firstName || '',
-  lastName: rawData.profile.lastName || '',
-  enabled: Boolean(rawData.enabled)
 })

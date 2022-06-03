@@ -1,12 +1,12 @@
 import { logger } from '@logger'
 import { userRequests } from '@orm'
-import { mapNewUserFromDomainToModel, mapUserFromModelToDomain } from '@mappers'
+import { mapNewUserFromDomainToModel } from '@mappers'
 import { CreateUserError, RetrieveUserError, UserAlreadyExistsError, UserNotFoundError } from '@errors'
 import { NewUserData, UserData, UserWithProfile } from '@types'
 
 export const createUser = async (newUser: NewUserData): Promise<UserWithProfile> => {
   try {
-    return mapUserFromModelToDomain(await userRequests.createUser(mapNewUserFromDomainToModel(newUser)))
+    return await userRequests.createUser(mapNewUserFromDomainToModel(newUser))
   } catch (error) {
     logger.error({ method: 'repository createUser', newUser }, 'User creation error')
     throw new CreateUserError((<Error>error).message)
@@ -15,9 +15,7 @@ export const createUser = async (newUser: NewUserData): Promise<UserWithProfile>
 
 export const getUser = async (searchParms: Partial<UserData>): Promise<UserWithProfile | undefined> => {
   try {
-    const retrievedUser = await userRequests.getUser(searchParms)
-
-    return retrievedUser ? mapUserFromModelToDomain(retrievedUser) : retrievedUser
+    return await userRequests.getUser(searchParms)
   } catch (error) {
     logger.error({ method: 'repository getUser' }, 'Retrieving user error')
     throw new RetrieveUserError((<Error>error).message)
@@ -26,7 +24,7 @@ export const getUser = async (searchParms: Partial<UserData>): Promise<UserWithP
 
 export const getAllUsers = async (): Promise<UserWithProfile[]> => {
   try {
-    return (await userRequests.getAllUsers()).map(mapUserFromModelToDomain)
+    return await userRequests.getAllUsers()
   } catch (error) {
     logger.error({ method: 'repository getAllUsers' }, 'Retrieving all users error')
     throw new RetrieveUserError((<Error>error).message)

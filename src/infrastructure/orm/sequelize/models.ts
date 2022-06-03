@@ -14,8 +14,14 @@ UserModel.init({
   username: { type: DataTypes.STRING, allowNull: false, unique: true },
   password: { type: DataTypes.STRING, allowNull: false },
   enabled: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
-  createdAt: { type: DataTypes.DATE },
-  updatedAt: { type: DataTypes.DATE }
+  createdAt: {
+    type: DataTypes.DATE,
+    get () { return new Date(this.getDataValue('createdAt')).toISOString().slice(0, 19) }
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    get () { return new Date(this.getDataValue('createdAt')).toISOString().slice(0, 19) }
+  }
 }, {
   sequelize,
   timestamps: true,
@@ -69,8 +75,14 @@ PetModel.init({
   name: { type: DataTypes.STRING, allowNull: false },
   birthday: { type: DataTypes.DATE, allowNull: false },
   enabled: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
-  createdAt: { type: DataTypes.DATE },
-  updatedAt: { type: DataTypes.DATE }
+  createdAt: {
+    type: DataTypes.DATE,
+    get () { return new Date(this.getDataValue('createdAt')).toISOString().slice(0, 19) }
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    get () { return new Date(this.getDataValue('createdAt')).toISOString().slice(0, 19) }
+  }
 }, {
   sequelize,
   timestamps: true,

@@ -2,7 +2,7 @@ import supertest from 'supertest'
 import { StatusCodes } from 'http-status-codes'
 import { server } from '@server'
 import { petControllers } from '@controllers'
-import { cleanDatabaseFixture, createUserFixture } from '@fixtures'
+import { cleanDatabaseFixture, createUserFixture, UUID4_REGEX, DATE_REGEX } from '@fixtures'
 import { PetData } from '@types'
 import { petRequests } from '@orm'
 
@@ -46,20 +46,18 @@ describe(`Integration test - POST ${BASE_URL}`, () => {
     expect(body).not.toBeNull()
     expect(body).not.toEqual('')
 
+    const response: PetData = body
     const expectedPetFields = ['id', 'enabled', 'name', 'birthday', 'createdAt', 'updatedAt']
-    const response = body as PetData
 
     expect(Object.keys(response)).toHaveLength(expectedPetFields.length)
     Object.keys(response).forEach(key => expect(expectedPetFields.includes(key)).toBeTruthy())
 
-    expect(response.id).toMatch(/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/)
+    expect(response.id).toMatch(UUID4_REGEX)
     expect(response.name).toBe(payload.name)
     expect(response.birthday).toBe(payload.birthday)
     expect(response.enabled).toBeTruthy()
-    expect(response.createdAt).not.toBeUndefined()
-    expect(response.createdAt).not.toBeNull()
-    expect(response.updatedAt).not.toBeUndefined()
-    expect(response.updatedAt).not.toBeNull()
+    expect(response.createdAt).toMatch(DATE_REGEX)
+    expect(response.updatedAt).toMatch(DATE_REGEX)
   })
 
   it('returns CREATED (201) and the new pet is persisted successfully with the same name but different owner', async () => {
@@ -83,14 +81,12 @@ describe(`Integration test - POST ${BASE_URL}`, () => {
     expect(Object.keys(response)).toHaveLength(expectedPetFields.length)
     Object.keys(response).forEach(key => expect(expectedPetFields.includes(key)).toBeTruthy())
 
-    expect(response.id).toMatch(/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/)
+    expect(response.id).toMatch(UUID4_REGEX)
     expect(response.name).toBe(payload.name)
     expect(response.birthday).toBe(payload.birthday)
     expect(response.enabled).toBeTruthy()
-    expect(response.createdAt).not.toBeUndefined()
-    expect(response.createdAt).not.toBeNull()
-    expect(response.updatedAt).not.toBeUndefined()
-    expect(response.updatedAt).not.toBeNull()
+    expect(response.createdAt).toMatch(DATE_REGEX)
+    expect(response.updatedAt).toMatch(DATE_REGEX)
   })
 
   it.todo('returns BAD_REQUEST (400) when trying to record the same pet name for the same owner')

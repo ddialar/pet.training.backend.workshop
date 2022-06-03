@@ -31,7 +31,11 @@ export interface ProfileData {
   userId: string
 }
 
-export type UserWithProfile = Omit<UserData, 'createdAt' | 'updatedAt'> & Pick<ProfileData, 'firstName' | 'lastName'>
+export type NewUserWithProfile =
+  Pick<UserData, 'username' | 'password'> &
+  { profile: Omit<ProfileData, 'userId'> }
+
+export type UserWithProfile = UserData & { profile: ProfileData }
 
 // ##############################################################
 // #####                    USER - PET                      #####

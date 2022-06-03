@@ -1,11 +1,11 @@
 import { hash } from 'bcrypt'
-import { connect, userRequests } from '@orm'
+import { connect } from '@orm'
 import { UserModel, UserProfileModel } from '@ormSequelizeModels'
 import { logger } from '@logger'
 import { BCRYPT_SALT } from '@config'
 import { SigninRequest, UserWithProfile } from '@types'
 
-export const cleanUsersDatabaseFixture = async () => {
+export const cleanUsersDatabaseFixture = async (): Promise<void> => {
   try {
     await connect()
     await UserModel.destroy({ truncate: true, cascade: true })
@@ -26,19 +26,10 @@ export const createUserFixture = async ({ email, firstName, lastName, password }
   }
 
   await connect()
-  const rawPersistedUser = (await UserModel.create(
+  return (await UserModel.create(
     parsedUserData,
     { include: [UserProfileModel] }
-  )).get({ plain: true }) as userRequests.UserWithProfileDatabase
-
-  return {
-    id: rawPersistedUser.id,
-    username: rawPersistedUser.username,
-    password: rawPersistedUser.password,
-    firstName: rawPersistedUser.profile.firstName,
-    lastName: rawPersistedUser.profile.lastName,
-    enabled: rawPersistedUser.enabled
-  }
+  )).get({ plain: true }) as UserWithProfile
 }
 
 // export const getUserFixture = async (searchParams: Partial<UserData>): Promise<UserData | undefined> => {
