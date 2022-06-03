@@ -12,3 +12,8 @@ export const createPet = async ({ name, birthday, ownerEmail }: NewPetRequest): 
 
   return persistedPet
 }
+
+export const getAllPets = async (): Promise<PetData[]> => {
+  logger.info({ method: 'getAllPets controller' }, 'Retrieving registered pets')
+  return await petRepositories.getAllPets()
+}

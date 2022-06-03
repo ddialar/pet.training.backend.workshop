@@ -32,12 +32,6 @@
       "@orm": [
         "src/infrastructure/orm"
       ],
-      "@ormSequelizeCore": [
-        "src/infrastructure/orm/sequelize/core"
-      ],
-      "@ormSequelizeModels": [
-        "src/infrastructure/orm/sequelize/models"
-      ],
       "@preset": [
         "src/preset"
       ],

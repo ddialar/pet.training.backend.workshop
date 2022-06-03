@@ -1,6 +1,5 @@
 import { hash } from 'bcrypt'
-import { connect } from '@orm'
-import { UserModel, UserProfileModel } from '@ormSequelizeModels'
+import { connect, UserModel, UserProfileModel } from '@orm'
 import { logger } from '@logger'
 import { BCRYPT_SALT } from '@config'
 import { SigninRequest, UserWithProfile } from '@types'
