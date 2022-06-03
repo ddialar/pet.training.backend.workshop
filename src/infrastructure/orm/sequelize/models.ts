@@ -1,6 +1,6 @@
 import { Model, DataTypes, UUIDV4 } from 'sequelize'
 import { sequelize } from './connection'
-import { UserData, ProfileData, NewPetData, BasicPetData } from '@types'
+import { UserData, ProfileData } from '@types'
 
 // ###################################################
 // #####                  USER                   #####
@@ -65,36 +65,6 @@ UserProfileModel.init({
 // })
 
 // ###################################################
-// #####                   PET                   #####
-// ###################################################
-
-class PetModel extends Model<BasicPetData, Omit<NewPetData, 'ownerId'>> {}
-
-PetModel.init({
-  id: { type: DataTypes.UUID, primaryKey: true, autoIncrement: false, allowNull: false, unique: true, defaultValue: UUIDV4 },
-  name: { type: DataTypes.STRING, allowNull: false },
-  birthday: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    get () { return new Date(this.getDataValue('createdAt')).toISOString().slice(0, 19) }
-  },
-  enabled: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
-  createdAt: {
-    type: DataTypes.DATE,
-    get () { return new Date(this.getDataValue('createdAt')).toISOString().slice(0, 19) }
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    get () { return new Date(this.getDataValue('createdAt')).toISOString().slice(0, 19) }
-  }
-}, {
-  sequelize,
-  timestamps: true,
-  modelName: 'pet',
-  tableName: 'pet'
-})
-
-// ###################################################
 // #####              RELATIONSHIPS              #####
 // ###################################################
 
@@ -110,6 +80,5 @@ UserModel.hasOne(UserProfileModel, {
 
 export {
   UserModel,
-  UserProfileModel,
-  PetModel
+  UserProfileModel
 }

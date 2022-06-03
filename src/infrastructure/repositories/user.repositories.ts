@@ -39,12 +39,13 @@ export const findUserAndErrorIfExists = async (query: Partial<UserData>): Promis
   }
 }
 
-export const findUserAndErrorIfNotExists = async (query: Partial<UserData>): Promise<UserWithProfile> => {
-  const user = await getUser(query)
-  if (!user) {
-    logger.error({ method: 'repository findUserAndErrorIfNotExists', query }, 'User not found')
-    throw new UserNotFoundError()
-  }
+// TODO implement the findUserAndErrorIfNotExists method
+// export const findUserAndErrorIfNotExists = async (query: Partial<UserData>): Promise<UserWithProfile> => {
+//   const user = await getUser(query)
+//   if (!user) {
+//     logger.error({ method: 'repository findUserAndErrorIfNotExists', query }, 'User not found')
+//     throw new UserNotFoundError()
+//   }
 
-  return user
-}
+//   return user
+// }

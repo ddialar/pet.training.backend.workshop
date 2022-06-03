@@ -9,7 +9,7 @@ const { OK, BAD_REQUEST, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes
 const BASE_URL = '/login'
 const request = supertest(server)
 
-describe(`Integration test - POST ${BASE_URL}`, () => {
+xdescribe(`Integration test - POST ${BASE_URL}`, () => {
   const mockedUserData = {
     email: 'jane@doe.com',
     password: 'janedoepassword',
