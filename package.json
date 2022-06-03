@@ -16,7 +16,7 @@
     "test_infra:up": "docker-compose -f docker/docker-compose.yaml --env-file docker/test/.docker.env up -d",
     "test_infra:down": "docker-compose -f docker/docker-compose.yaml --env-file docker/test/.docker.env down -v",
     "lint:fix": "npx eslint --fix",
-    "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --validate-https --allowed-hotst npm",
+    "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --validate-https --allowed-hosts npm",
     "deps": "npm run deps:audit && npm run deps:sec-scan",
     "deps:audit": "npm audit && npm outdated -l",
     "deps:sec-scan": "npm run lint:lockfile",
