@@ -73,7 +73,11 @@ class PetModel extends Model<BasicPetData, Omit<NewPetData, 'ownerId'>> {}
 PetModel.init({
   id: { type: DataTypes.UUID, primaryKey: true, autoIncrement: false, allowNull: false, unique: true, defaultValue: UUIDV4 },
   name: { type: DataTypes.STRING, allowNull: false },
-  birthday: { type: DataTypes.DATE, allowNull: false },
+  birthday: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    get () { return new Date(this.getDataValue('createdAt')).toISOString().slice(0, 19) }
+  },
   enabled: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
   createdAt: {
     type: DataTypes.DATE,
