@@ -13,10 +13,11 @@ export const createPet = async ({ name, birthday, ownerEmail }: NewPetRequest): 
   return persistedPet
 }
 
-export const getPetById = async (id: string): Promise<PetData> => {
-  logger.info({ method: 'getPetById controller' }, 'Retrieving registered pet')
-  return await petRepositories.findPetAndErrorIfNotExists({ id })
-}
+// TODO implement the getPetById method
+// export const getPetById = async (id: string): Promise<PetData> => {
+//   logger.info({ method: 'getPetById controller' }, 'Retrieving registered pet')
+//   return await petRepositories.findPetAndErrorIfNotExists({ id })
+// }
 
 export const getAllPets = async (): Promise<PetData[]> => {
   logger.info({ method: 'getAllPets controller' }, 'Retrieving registered pets')

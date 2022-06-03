@@ -15,15 +15,16 @@ export const createPet = async (req: Request, res: Response, next: NextFunction)
   }
 }
 
-export const getPetById = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    commonValidators.validateIdParam(req.params.id)
-    const result = await petControllers.getPetById(req.params.id)
-    res.status(OK).json(result)
-  } catch (error) {
-    next(error)
-  }
-}
+// TODO implement the getPetById method
+// export const getPetById = async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     commonValidators.validateIdParam(req.params.id)
+//     const result = await petControllers.getPetById(req.params.id)
+//     res.status(OK).json(result)
+//   } catch (error) {
+//     next(error)
+//   }
+// }
 
 export const getAllPets = async (req: Request, res: Response, next: NextFunction) => {
   try {
